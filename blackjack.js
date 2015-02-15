@@ -13,6 +13,12 @@ $(function() {
         }
 
     };
+    testDeal = function(){
+        var shoe = createShoe(deck,1);
+        var dealerHand = shoe.shift();
+        var playerHand = shoe.shift();
+        console.log("Dealer has " + dealerHand + ", Player has "+playerHand);
+    };
     dealInitialHand = function(players) {
         var shoe = createShoe(deck, 2);
         for (var i=0; i<=1; i++) {
@@ -21,7 +27,28 @@ $(function() {
             }
         }
     };
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex ;
 
-    console.log(createShoe(deck, 4));
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+
+    shuffle(deck);
+    console.log(deck);
+    testDeal();
 
 });
