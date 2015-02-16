@@ -1,6 +1,6 @@
 $(function() {
     var deck = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-    createShoe = function(deck, numberOfDecks) {
+    function createShoe(deck, numberOfDecks) {
         var shoe = [];
         if (numberOfDecks === 1) {
             shoe = deck;
@@ -12,21 +12,21 @@ $(function() {
             } return shoe;
         }
 
-    };
-    testDeal = function(){
+    }
+    function testDeal(){
         var shoe = createShoe(deck,1);
         var dealerHand = shoe.shift();
         var playerHand = shoe.shift();
         console.log("Dealer has " + dealerHand + ", Player has "+playerHand);
-    };
-    dealInitialHand = function(players) {
+    }
+    function dealInitialHand(players) {
         var shoe = createShoe(deck, 2);
         for (var i=0; i<=1; i++) {
             for (var j=0; j <=players; j++) {
                 var hand
             }
         }
-    };
+    }
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex ;
 
