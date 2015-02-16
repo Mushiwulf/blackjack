@@ -17,9 +17,9 @@ describe('Blackjack Game', function(){
         it('should be a function', function(){
             assert.equal(typeof makeShoe, 'function');
         });
-        it('should return a shoe', function(){
+/*        it('should return a shoe', function(){
             //whoops I overwrote this test
-        });
+        });*/
         it('should have a length equal to deck*numberOfDecks', function(){
             assert.deepEqual(makeShoe(1).length, 52);
             assert.deepEqual(makeShoe(2).length, 104);
