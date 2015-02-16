@@ -3,7 +3,7 @@ var blackjack = require("../blackjack.js");
 
 
 describe('Blackjack Game', function(){
-    describe('deck stuff', function(){
+    describe('deck', function(){
         it('should exist', function(){
             assert.equal(typeof deck, 'object');
         });
