@@ -21,12 +21,20 @@ describe('Blackjack Game', function(){
             assert.deepEqual(makeShoe(2).length, 104);
             assert.deepEqual(makeShoe(6).length, 312);
         })
+    });
+    describe('shuffleDeck', function(){
+        it('should return a shuffledShoe the same length as the shoe', function(){
+            assert.equal(makeShoe(1).length, shuffledShoe.length);
+            assert.equal(makeShoe(2).length, shuffledShoe.length);
+        })
     })
 });
 var deck = [1,2,3,4,5,6,7,8,9,10,10,10,10
     ,1,2,3,4,5,6,7,8,9,10,10,10,10
     ,1,2,3,4,5,6,7,8,9,10,10,10,10
     ,1,2,3,4,5,6,7,8,9,10,10,10,10];
+var shuffledShoe=[];
+shuffledShoe.length = 52;
 var makeShoe = function(numberOfDecks) {
     var shoe =[];
     for (var i = 1; i <= numberOfDecks; i++) {
