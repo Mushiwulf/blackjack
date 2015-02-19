@@ -23,10 +23,17 @@ describe('Blackjack Game', function(){
         })
     });
     describe('shuffleDeck', function(){
+
         //need a before each?
         it('should return a shuffledShoe the same length as the shoe', function(){
             assert.equal(makeShoe(1).length, shuffleShoe(makeShoe(1)).length);
-            assert.equal(makeShoe(1).length, shuffleShoe(makeShoe(2)).length);
+            assert.equal(makeShoe(2).length, shuffleShoe(makeShoe(2)).length);
+        })
+
+    });
+    describe('initialDeal', function(){
+        it('should deal two cards each to the player rand the dealer', function(){
+            assert.equal(0,1); //need to figure out this set of tests
         })
     })
 });
@@ -34,17 +41,17 @@ var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
     ,11,2,3,4,5,6,7,8,9,10,10,10,10
     ,11,2,3,4,5,6,7,8,9,10,10,10,10
     ,11,2,3,4,5,6,7,8,9,10,10,10,10];
-var shoe = [];
-var shuffledShoe = [];
-var makeShoe = function(numberOfDecks) {
-    shoe =[];
+
+function makeShoe(numberOfDecks) {
+    var shoe =[];
     for (var i = 1; i <= numberOfDecks; i++) {
         shoe = shoe.concat(deck);
     }
 
     return shoe;
-};
+}
 function shuffleShoe(shoe){
+    var shuffledShoe=[];
     for(i=shoe.length;i >=0; i--){
         var random = Math.floor(Math.random()*i);
         shuffledShoe = shuffledShoe.concat(shoe.splice(random, 1));
