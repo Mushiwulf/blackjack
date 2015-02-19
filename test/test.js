@@ -26,7 +26,7 @@ describe('Blackjack Game', function(){
         //need a before each?
         it('should return a shuffledShoe the same length as the shoe', function(){
             assert.equal(makeShoe(1).length, shuffleShoe(makeShoe(1)).length);
-            assert.equal(makeShoe(2).length, shuffleShoe(makeShoe(2)).length);
+            assert.equal(makeShoe(1).length, shuffleShoe(makeShoe(2)).length);
         })
     })
 });
