@@ -32,15 +32,18 @@ describe('Blackjack Game', function(){
 
     });
     describe('initialDeal', function(){
-        it('should deal two cards each to the player rand the dealer', function() {
-
-
-            assert.equal(2, playerHand.length); //need to figure out this set of tests
-            assert.equal(2, dealerHand.length);
-        });
         it('should have removed two cards from the shuffledShoe', function(){
             assert.equal(48, initialDeal(shuffleShoe(makeShoe(1))).length);
-        })
+
+
+        });
+        it('should deal two cards each to the player rand the dealer', function() {
+            assert.equal(2, playerHand.length);
+            assert.equal(2, dealerHand.length);
+             //need to figure out this set of tests
+         //
+        });
+
     })
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -73,4 +76,3 @@ function initialDeal(shuffledShoe) {
     console.log(playerHand);
     return shuffledShoe;
 }
-console.log(playerHand + " " + dealerHand);
