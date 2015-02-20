@@ -1,3 +1,4 @@
+/*
 
 var thingy = [2,3,4,5,11,5,6,7,11];
 console.log(thingy);
@@ -42,4 +43,4 @@ function initialDeal() {
 }
 shuffleShoe(shoe);
 initialDeal();
-console.log("Player holds " + playerHand + " Dealer holds " + dealerHand + " Deck holds " + shuffledShoe.length + " cards.");
+console.log("Player holds " + playerHand + " Dealer holds " + dealerHand + " Deck holds " + shuffledShoe.length + " cards.");*/
