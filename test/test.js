@@ -65,7 +65,26 @@ describe('Blackjack Game', function(){
 
         it('should check the dealerHand score', function(){
             assert.equal(scoreHand([5,5]), 10);
+            assert.equal(scoreHand([10,8]), 18);
+            assert.equal(scoreHand([3,5,8,2]), 18);
+            var testHand = [6,5,10];
+            assert.equal(scoreHand(testHand), 21);
 
+        })
+
+    });
+    describe('testForBlackjack', function(){
+        it('should check for 21', function(){
+            assert.equal(testForBlackjack(scoreHand([10,11])), true);
+            assert.equal(testForBlackjack(scoreHand([5,5])), false);
+        })
+    });
+    describe('testForSplit', function(){
+        it('should check that both cards are the same', function(){
+            var playerHand = [6,6];
+            var playerHand2 = [6,7];
+            assert.equal(testForSplit(playerHand), true);
+            assert.equal(testForSplit(playerHand2), false);
         })
     })
 });
@@ -104,4 +123,10 @@ function scoreHand(hand){
          score = score + hand[i];
 
     } return score;
+}
+function testForBlackjack(score){
+    return score == 21;
+}
+function testForSplit(hand){
+    return hand[0] == hand [1];
 }
