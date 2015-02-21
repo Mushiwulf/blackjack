@@ -117,19 +117,18 @@ function makeShoe(numberOfDecks) {
     for (var i = 1; i <= numberOfDecks; i++) {
         shoe = shoe.concat(deck);
     }
-
     return shoe;
 }
 function shuffleShoe(shoe){
     var shuffledShoe=[];
-    for(i=shoe.length;i >=0; i--){
+    for(var i=shoe.length;i >=0; i--){
         var random = Math.floor(Math.random()*i);
         shuffledShoe = shuffledShoe.concat(shoe.splice(random, 1));
     }
     return shuffledShoe;
 }
 function initialDeal(shuffledShoe) {
-    for (i=1; i<= 2; i++) {
+    for (var i=1; i<= 2; i++) {
         playerHand = playerHand.concat(shuffledShoe.shift());
         dealerHand = dealerHand.concat(shuffledShoe.shift());
     }
@@ -137,9 +136,8 @@ function initialDeal(shuffledShoe) {
 }
 function scoreHand(hand){
     var score=0;
-    for (i=0; i<hand.length; i++){
+    for (var i=0; i<hand.length; i++){
          score = score + hand[i];
-
     } return score;
 }
 function testForBlackjack(score){
