@@ -104,6 +104,18 @@ describe('Blackjack Game', function(){
             assert.deepEqual(reduceAce([10,10,11]), [10,10,1]);
             assert.deepEqual(reduceAce([9,11,11]), [9,1,11]);
         })
+    });
+    describe('dealCard', function(){
+        it('should deal one card to the correct player', function(){
+
+            dealCard("player");
+            assert.equal(playerHand.length, 3);
+            assert.equal(shuffledShoe.length, 47);
+            dealCard("player");
+            assert.equal(playerHand.length, 4);
+            assert.equal(shuffledShoe.length, 46);
+
+        })
     })
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -112,6 +124,7 @@ var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
     ,11,2,3,4,5,6,7,8,9,10,10,10,10];
 var playerHand = [];
 var dealerHand = [];
+var shuffledShoe = [];
 function makeShoe(numberOfDecks) {
     var shoe =[];
     for (var i = 1; i <= numberOfDecks; i++) {
@@ -120,7 +133,7 @@ function makeShoe(numberOfDecks) {
     return shoe;
 }
 function shuffleShoe(shoe){
-    var shuffledShoe=[];
+    shuffledShoe=[];
     for(var i=shoe.length;i >=0; i--){
         var random = Math.floor(Math.random()*i);
         shuffledShoe = shuffledShoe.concat(shoe.splice(random, 1));
@@ -156,4 +169,11 @@ function reduceAce(hand){
     var firstAceLocation = hand.indexOf(11);
     hand[firstAceLocation] = 1;
     return hand;
+}
+function dealCard(hand){
+    if (hand == "player"){
+        playerHand = playerHand.concat(shuffledShoe.shift());
+    } else if (hand == "dealer") {
+        dealerHand = dealerHand.concat(shuffledShoe.shift());
+    }
 }
