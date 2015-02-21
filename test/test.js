@@ -86,6 +86,24 @@ describe('Blackjack Game', function(){
             assert.equal(testForSplit(playerHand), true);
             assert.equal(testForSplit(playerHand2), false);
         })
+    });
+    describe('testForBust', function(){
+        it('should check to see if score is higher than 21', function(){
+            assert.equal(testForBust(scoreHand([10,10,2])), true);
+            assert.equal(testForBust(scoreHand([10,8])), false);
+        })
+    });
+    describe('testForUnreducedAces', function(){
+        it('should find if a busting hand has aces that could be reduced in score value', function(){
+            assert.equal(testForUnreducedAces([10,5,11]), true);
+            assert.equal(testForUnreducedAces([10,10,10]), false);
+        })
+    });
+    describe('reduceAce', function(){
+        it('should take the first ace and reduce the score value from 11 to 1', function(){
+            assert.deepEqual(reduceAce([10,10,11]), [10,10,1]);
+            assert.deepEqual(reduceAce([9,11,11]), [9,1,11]);
+        })
     })
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -129,4 +147,15 @@ function testForBlackjack(score){
 }
 function testForSplit(hand){
     return hand[0] == hand [1];
+}
+function testForBust(score){
+    return score > 21;
+}
+function testForUnreducedAces(hand){
+    return hand.indexOf(11) != -1;
+}
+function reduceAce(hand){
+    var firstAceLocation = hand.indexOf(11);
+    hand[firstAceLocation] = 1;
+    return hand;
 }
