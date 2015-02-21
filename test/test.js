@@ -32,18 +32,41 @@ describe('Blackjack Game', function(){
 
     });
     describe('initialDeal', function(){
-        it('should have removed two cards from the shuffledShoe', function(){
-            assert.equal(48, initialDeal(shuffleShoe(makeShoe(1))).length);
+        //beforeEach(function(){
+        //    var shuffledShoe = shuffleShoe(makeShoe(1));
+        //    var card1 = shuffledShoe[0];
+        //    var card2 = shuffledShoe[1];
+        //    var card3 = shuffledShoe[2];
+        //    var card4 = shuffledShoe[3];
+        //    shuffledShoe = initialDeal(shuffledShoe);
+        //});
 
-
+        it('should have removed four cards from the shuffledShoe and dealt the right cards out', function(){
+            var shuffledShoe = shuffleShoe(makeShoe(1));
+            var card1 = shuffledShoe[0];
+            var card2 = shuffledShoe[1];
+            var card3 = shuffledShoe[2];
+            var card4 = shuffledShoe[3];
+            assert.equal(48, initialDeal(shuffledShoe).length);
+            assert.equal(card1, playerHand[0]);
+            assert.equal(card2, dealerHand[0]);
+            assert.equal(card3, playerHand[1]);
+            assert.equal(card4, dealerHand[1]);
         });
-        it('should deal two cards each to the player rand the dealer', function() {
+        it('should deal two cards each to the player and the dealer', function() {
             assert.equal(2, playerHand.length);
             assert.equal(2, dealerHand.length);
              //need to figure out this set of tests
          //
         });
 
+    });
+    describe('scoreHand', function(){
+
+        it('should check the dealerHand score', function(){
+            assert.equal(scoreHand([5,5]), 10);
+
+        })
     })
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -73,6 +96,12 @@ function initialDeal(shuffledShoe) {
         playerHand = playerHand.concat(shuffledShoe.shift());
         dealerHand = dealerHand.concat(shuffledShoe.shift());
     }
-    console.log(playerHand);
     return shuffledShoe;
+}
+function scoreHand(hand){
+    var score=0;
+    for (i=0; i<hand.length; i++){
+         score = score + hand[i];
+
+    } return score;
 }
