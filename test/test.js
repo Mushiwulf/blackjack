@@ -114,6 +114,9 @@ describe('Blackjack Game', function(){
             dealCard("player");
             assert.equal(playerHand.length, 4);
             assert.equal(shuffledShoe.length, 46);
+            dealCard("dealer");
+            assert.equal(dealerHand.length, 3);
+            assert.equal(shuffledShoe.length, 45);
 
         })
     })
