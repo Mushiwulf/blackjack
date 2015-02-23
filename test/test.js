@@ -10,7 +10,6 @@ describe('Blackjack Game', function(){
         it('should have a length of 52', function(){
             assert.equal(deck.length, 52);
         });
-
     });
     describe('makeShoe', function(){
         it('should be a function', function(){
@@ -23,8 +22,6 @@ describe('Blackjack Game', function(){
         })
     });
     describe('shuffleDeck', function(){
-
-        //need a before each?
         it('should return a shuffledShoe the same length as the shoe', function(){
             assert.equal(makeShoe(1).length, shuffleShoe(makeShoe(1)).length);
             assert.equal(makeShoe(2).length, shuffleShoe(makeShoe(2)).length);
@@ -32,16 +29,7 @@ describe('Blackjack Game', function(){
 
     });
     describe('initialDeal', function(){
-        //beforeEach(function(){
-        //    var shuffledShoe = shuffleShoe(makeShoe(1));
-        //    var card1 = shuffledShoe[0];
-        //    var card2 = shuffledShoe[1];
-        //    var card3 = shuffledShoe[2];
-        //    var card4 = shuffledShoe[3];
-        //    shuffledShoe = initialDeal(shuffledShoe);
-        //});
-
-        it('should have removed four cards from the shuffledShoe and dealt the right cards out', function(){
+         it('should have removed four cards from the shuffledShoe and dealt the right cards out', function(){
             var shuffledShoe = shuffleShoe(makeShoe(1));
             var card1 = shuffledShoe[0];
             var card2 = shuffledShoe[1];
@@ -56,22 +44,17 @@ describe('Blackjack Game', function(){
         it('should deal two cards each to the player and the dealer', function() {
             assert.equal(2, playerHand.length);
             assert.equal(2, dealerHand.length);
-             //need to figure out this set of tests
-         //
         });
 
     });
     describe('scoreHand', function(){
-
         it('should check the dealerHand score', function(){
             assert.equal(scoreHand([5,5]), 10);
             assert.equal(scoreHand([10,8]), 18);
             assert.equal(scoreHand([3,5,8,2]), 18);
             var testHand = [6,5,10];
             assert.equal(scoreHand(testHand), 21);
-
-        })
-
+        });
     });
     describe('testForBlackjack', function(){
         it('should check for 21', function(){
@@ -89,8 +72,8 @@ describe('Blackjack Game', function(){
     });
     describe('testForBust', function(){
         it('should check to see if score is higher than 21', function(){
-            assert.equal(testForBust(scoreHand([10,10,2])), true);
-            assert.equal(testForBust(scoreHand([10,8])), false);
+            assert.equal(testForBust(22), true);
+            assert.equal(testForBust(18), false);
         })
     });
     describe('testForUnreducedAces', function(){
@@ -107,7 +90,6 @@ describe('Blackjack Game', function(){
     });
     describe('dealCard', function(){
         it('should deal one card to the correct player', function(){
-
             dealCard("player");
             assert.equal(playerHand.length, 3);
             assert.equal(shuffledShoe.length, 47);
@@ -117,7 +99,12 @@ describe('Blackjack Game', function(){
             dealCard("dealer");
             assert.equal(dealerHand.length, 3);
             assert.equal(shuffledShoe.length, 45);
-
+        })
+    });
+    describe('evaluateHand', function(){
+        it('should score the hand and then decide if the hand is busted', function(){
+            assert.equal(evaluateHand([10,10,10]), true);
+            assert.equal(evaluateHand([10,10]), false);
         })
     })
 });
@@ -155,6 +142,7 @@ function scoreHand(hand){
     for (var i=0; i<hand.length; i++){
          score = score + hand[i];
     } return score;
+
 }
 function testForBlackjack(score){
     return score == 21;
@@ -179,4 +167,8 @@ function dealCard(hand){
     } else if (hand == "dealer") {
         dealerHand = dealerHand.concat(shuffledShoe.shift());
     }
+}
+function evaluateHand(hand){
+    return (testForBust(scoreHand(hand)));
+
 }
