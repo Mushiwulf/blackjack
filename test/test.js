@@ -6,6 +6,7 @@ describe('Blackjack Game', function(){
     beforeEach(function(){
         playerHand=[];
         dealerHand=[];
+        playerActive=false;
     });
     describe('deck', function(){
         it('should exist', function(){
@@ -49,6 +50,10 @@ describe('Blackjack Game', function(){
             initialDeal(shuffleShoe(makeShoe(1)));
             assert.equal(2, playerHand.length);
             assert.equal(2, dealerHand.length);
+        });
+        it('should activate the player after the deal', function(){
+            initialDeal(shuffleShoe(makeShoe(1)));
+            assert.equal(playerActive, true);
         });
 
     });
