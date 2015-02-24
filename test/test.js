@@ -95,6 +95,7 @@ describe('Blackjack Game', function(){
             initialDeal(shuffleShoe(makeShoe(1)));
             doubleDown();
             assert.equal(playerHand.length, 3);
+            assert.equal(playerActive, false);
         })
     });
     describe('dealCard', function(){
@@ -129,6 +130,7 @@ var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
 var playerHand = [];
 var dealerHand = [];
 var shuffledShoe = [];
+var playerActive = false;
 function makeShoe(numberOfDecks) {
     var shoe =[];
     for (var i = 1; i <= numberOfDecks; i++) {
@@ -149,6 +151,7 @@ function initialDeal(shuffledShoe) {
         playerHand = playerHand.concat(shuffledShoe.shift());
         dealerHand = dealerHand.concat(shuffledShoe.shift());
     }
+    playerActive = true;
     return shuffledShoe;
 }
 function scoreHand(hand){
@@ -195,4 +198,5 @@ function evaluateHand(hand){
 }
 function doubleDown(){
     dealCard("player");
+    playerActive = false;
 }
