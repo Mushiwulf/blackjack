@@ -3,6 +3,10 @@ var blackjack = require("../blackjack.js");
 
 
 describe('Blackjack Game', function(){
+    beforeEach(function(){
+        playerHand=[];
+        dealerHand=[];
+    });
     describe('deck', function(){
         it('should exist', function(){
             assert.equal(typeof deck, 'object');
@@ -42,6 +46,7 @@ describe('Blackjack Game', function(){
             assert.equal(card4, dealerHand[1]);
         });
         it('should deal two cards each to the player and the dealer', function() {
+            initialDeal(shuffleShoe(makeShoe(1)));
             assert.equal(2, playerHand.length);
             assert.equal(2, dealerHand.length);
         });
@@ -52,22 +57,19 @@ describe('Blackjack Game', function(){
             assert.equal(scoreHand([5,5]), 10);
             assert.equal(scoreHand([10,8]), 18);
             assert.equal(scoreHand([3,5,8,2]), 18);
-            var testHand = [6,5,10];
-            assert.equal(scoreHand(testHand), 21);
+            assert.equal(scoreHand([6,5,10]), 21);
         });
     });
-    describe('testForBlackjack', function(){
+    describe('testFor21', function(){
         it('should check for 21', function(){
-            assert.equal(testForBlackjack(scoreHand([10,11])), true);
-            assert.equal(testForBlackjack(scoreHand([5,5])), false);
+            assert.equal(testFor21(scoreHand([10,11])), true);
+            assert.equal(testFor21(scoreHand([5,5])), false);
         })
     });
     describe('testForSplit', function(){
         it('should check that both cards are the same', function(){
-            var playerHand = [6,6];
-            var playerHand2 = [6,7];
-            assert.equal(testForSplit(playerHand), true);
-            assert.equal(testForSplit(playerHand2), false);
+            assert.equal(testForSplit([6,6]), true);
+            assert.equal(testForSplit([6,7]), false);
         })
     });
     describe('testForBust', function(){
@@ -88,8 +90,16 @@ describe('Blackjack Game', function(){
             assert.deepEqual(reduceAce([9,11,11]), [9,1,11]);
         })
     });
+    describe('doubleDown', function(){
+        it('should deal one card and then advance the turn', function(){
+            initialDeal(shuffleShoe(makeShoe(1)));
+            doubleDown();
+            assert.equal(playerHand.length, 3);
+        })
+    });
     describe('dealCard', function(){
         it('should deal one card to the correct player', function(){
+            initialDeal(shuffleShoe(makeShoe(1)));
             dealCard("player");
             assert.equal(playerHand.length, 3);
             assert.equal(shuffledShoe.length, 47);
@@ -103,10 +113,14 @@ describe('Blackjack Game', function(){
     });
     describe('evaluateHand', function(){
         it('should score the hand and then decide if the hand is busted', function(){
-            assert.equal(evaluateHand([10,10,10]), true);
-            assert.equal(evaluateHand([10,10]), false);
+            assert.equal(evaluateHand([10,10,10]), "busted");
+        });
+        it('should check a busted hand for unreduced aces, reduce and ace and return the score', function(){
+            assert.equal(evaluateHand([10,10,11]), 21);
+            assert.equal(evaluateHand([10,11,2]), 13);
         })
-    })
+    });
+
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
     ,11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -144,7 +158,7 @@ function scoreHand(hand){
     } return score;
 
 }
-function testForBlackjack(score){
+function testFor21(score){
     return score == 21;
 }
 function testForSplit(hand){
@@ -169,6 +183,16 @@ function dealCard(hand){
     }
 }
 function evaluateHand(hand){
-    return (testForBust(scoreHand(hand)));
-
+    if (testForBust(scoreHand(hand))){
+        if (testForUnreducedAces(hand)) {
+            reduceAce(hand);
+            return testForBust(evaluateHand(hand)) ? "busted" : scoreHand(hand);
+        }
+        return "busted";
+    } else {
+        return scoreHand(hand);
+    }
+}
+function doubleDown(){
+    dealCard("player");
 }
