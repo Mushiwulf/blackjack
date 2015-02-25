@@ -3,7 +3,7 @@ var blackjack = require("../blackjack.js");
 
 
 describe('Blackjack Game', function(){
-    beforeEach(function(){
+    afterEach(function(){
         playerHand=[];
         dealerHand=[];
         playerActive=false;
@@ -118,14 +118,23 @@ describe('Blackjack Game', function(){
         })
     });
     describe('evaluateHand', function(){
-        it('should score the hand and then decide if the hand is busted', function(){
+        it('should score the hand and then decide if the hand is busted then advance the turn', function(){
+            playerActive = true;
             assert.equal(evaluateHand([10,10,10]), "busted");
+            assert.equal(playerActive, false);
         });
         it('should check a busted hand for unreduced aces, reduce and ace and return the score', function(){
             assert.equal(evaluateHand([10,10,11]), 21);
             assert.equal(evaluateHand([10,11,2]), 13);
         })
     });
+    describe('compareHands', function(){
+        it('should take two hands and return the winner or a push', function(){
+            assert.equal(compareHands([10,9], [10,8]), "player" );
+            assert.equal(compareHands([10,9], [10,10]), "dealer" );
+            assert.equal(compareHands([10,9], [10,9]), "push" );
+        })
+    })
 
 });
 var deck = [11,2,3,4,5,6,7,8,9,10,10,10,10
@@ -194,8 +203,9 @@ function evaluateHand(hand){
     if (testForBust(scoreHand(hand))){
         if (testForUnreducedAces(hand)) {
             reduceAce(hand);
-            return testForBust(evaluateHand(hand)) ? "busted" : scoreHand(hand);
+            return scoreHand(hand);
         }
+        playerActive = false;
         return "busted";
     } else {
         return scoreHand(hand);
@@ -204,4 +214,13 @@ function evaluateHand(hand){
 function doubleDown(){
     dealCard("player");
     playerActive = false;
+}
+function compareHands(player, dealer) {
+    if (scoreHand(player) === scoreHand(dealer)){
+        return "push";
+    } else if (scoreHand(player) > scoreHand(dealer)){
+        return "player";
+    } else {
+        return "dealer";
+    }
 }
