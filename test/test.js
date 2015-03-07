@@ -3,14 +3,14 @@ var blackjack = require("../blackjack.js");
 
 
 describe('Blackjack Game', function(){
-    afterEach(function(){
+    beforeEach(function(){
         playerHand=[];
         dealerHand=[];
         playerActive=false;
     });
     describe('deck', function(){
         it('should exist', function(){
-            assert.equal(typeof deck, 'object');
+            assert.equal(typeof deck, 'object')
         });
         it('should have a length of 52', function(){
             assert.equal(deck.length, 52);
@@ -126,6 +126,13 @@ describe('Blackjack Game', function(){
         it('should check a busted hand for unreduced aces, reduce and ace and return the score', function(){
             assert.equal(evaluateHand([10,10,11]), 21);
             assert.equal(evaluateHand([10,11,2]), 13);
+        });
+        it('should check a dealerAI hand and do stuff', function(){
+            assert.equal(evaluateHand(dealerAI([10,7])), 17);
+            assert.equal(evaluateHand(dealerAI([10,7,7])), "busted");
+            assert.notEqual(evaluateHand(dealerAI([10,10])), "busted");
+
+
         })
     });
     describe('compareHands', function(){
@@ -133,7 +140,29 @@ describe('Blackjack Game', function(){
             assert.equal(compareHands([10,9], [10,8]), "player" );
             assert.equal(compareHands([10,9], [10,10]), "dealer" );
             assert.equal(compareHands([10,9], [10,9]), "push" );
+        });
+        it('should take dealerAI logic and compare correctly', function(){
+            assert.equal(compareHands([10,6], dealerAI([10,6])), "dealer");
+            assert.equal(compareHands([10,7], dealerAI([10,7])), "push");
+            assert.equal(compareHands([10,8], dealerAI([10,7])), "player");
+            assert.notEqual(compareHands([10,7], dealerAI([11,6])), "player");
         })
+    });
+    describe('dealerAI', function(){
+        it('should stay on hard 17 or higher', function(){
+            assert.deepEqual(dealerAI([10,7]), [10,7]);
+        });
+        it('should hit on soft 17', function(){
+            dealerAI([11,6]);
+            assert.notEqual(dealerHand.length, 2);
+        });
+        it('should hit on lower than 17', function(){
+            dealerAI([4,6]);
+            assert.notEqual(dealerHand.length, 2);
+        });
+        it('should stand on 18 and up', function(){
+            assert.deepEqual(dealerAI([10,9]), [10,9]);
+        });
     })
 
 });
@@ -223,4 +252,18 @@ function compareHands(player, dealer) {
     } else {
         return "dealer";
     }
+}
+function dealerAI(hand){
+     dealerHand  = hand;
+    var score = scoreHand(dealerHand);
+    if (score < 17) {
+        dealCard("dealer");
+        dealerAI(dealerHand);
+    } else if (score >= 17 && testForUnreducedAces(dealerHand) > 0) {
+        reduceAce(dealerHand);
+        dealCard("dealer");
+        dealerAI(hand);
+       // score = scoreHand(dealerHand);
+       // return dealerHand;
+    } return dealerHand;
 }
